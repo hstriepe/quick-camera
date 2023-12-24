@@ -4,7 +4,7 @@
 //
 //  Created by Simon Guest on 1/22/17.
 //  Copyright © 2013-2021 Simon Guest. All rights reserved.
-//
+//  Modified Harald Striepe 12/23/23
 
 import Cocoa
 import AVKit
@@ -12,7 +12,8 @@ import AVFoundation
 
 @NSApplicationMain
 class QCAppDelegate: NSObject, NSApplicationDelegate, QCUsbWatcherDelegate {
-
+    
+    let displaySleepManager = DisplaySleepManager()
     let usb = QCUsbWatcher()
     func deviceCountChanged() {
         self.detectVideoDevices()
@@ -28,15 +29,15 @@ class QCAppDelegate: NSObject, NSApplicationDelegate, QCUsbWatcherDelegate {
     
     // 0 = normal, 1 = 90' top to right, 2 = 180' top to bottom, 3 = 270' top to left
     var position = 0;
-    
+    var isCursorVisible: Bool = true;
     var isBorderless: Bool = false;
     var isAspectRatioFixed: Bool = false;
     var defaultBorderStyle: NSWindow.StyleMask = NSWindow.StyleMask.closable;
     var windowTitle = "Quick Camera";
     let defaultDeviceIndex: Int = 0;
     var selectedDeviceIndex: Int = 0
-    
     var devices: [AVCaptureDevice]!;
+    var audio_devices: [AVCaptureDevice]!;
     var captureSession: AVCaptureSession!;
     var captureLayer: AVCaptureVideoPreviewLayer!;
     
@@ -51,7 +52,8 @@ class QCAppDelegate: NSObject, NSApplicationDelegate, QCUsbWatcherDelegate {
     func detectVideoDevices() {
         NSLog("Detecting video devices...");
         self.devices = AVCaptureDevice.devices(for: AVMediaType.video);
-        
+        self.audio_devices = AVCaptureDevice.devices(for: AVMediaType.audio);
+
         if (devices?.count == 0) {
             let popup = NSAlert();
             popup.messageText = "Unfortunately, you don't appear to have any cameras connected. Goodbye for now!";
@@ -87,19 +89,29 @@ class QCAppDelegate: NSObject, NSApplicationDelegate, QCUsbWatcherDelegate {
         }
         selectSourceMenu.submenu = deviceMenu;
     }
-    
+  
     func startCaptureWithVideoDevice(defaultDevice: Int) {
         NSLog("Starting capture with device index %d", defaultDevice);
         let device: AVCaptureDevice = self.devices[defaultDevice];
-        
+
+//        guard let audioDevice = AVCaptureDevice.default(for: .audio) else { return }
+//        guard let audioInput = try? AVCaptureDeviceInput(device: audioDevice) else { return }
+//        if self.captureSession.canAddInput(audioInput) {
+//            self.captureSession.addInput(audioInput)
+//       } else { return }
+
         if (captureSession != nil) {
             
             // if we are "restarting" a session but the device is the same exit early
             let currentDevice = (self.captureSession.inputs[0] as! AVCaptureDeviceInput).device
             guard currentDevice != device else { return }
             
+            displaySleepManager.allowDisplaySleep();
+            NSCursor.unhide();
             captureSession.stopRunning();
         }
+        
+        displaySleepManager.preventDisplaySleep()
         captureSession = AVCaptureSession();
         
         do {
@@ -115,6 +127,7 @@ class QCAppDelegate: NSObject, NSApplicationDelegate, QCUsbWatcherDelegate {
             self.windowTitle = String(format: "Quick Camera: [%@]", device.localizedName);
             self.window.title = self.windowTitle;
             fixAspectRatio();
+//            NSCursor.hide();
         } catch {
             NSLog("Error while opening device");
             self.errorMessage(message: "Unfortunately, there was an error when trying to access the camera. Try again or select a different one.");
@@ -215,6 +228,12 @@ class QCAppDelegate: NSObject, NSApplicationDelegate, QCUsbWatcherDelegate {
     @IBAction func enterFullScreen(_ sender: NSMenuItem) {
         NSLog("Enter full screen menu item selected");
         playerView.window?.toggleFullScreen(self);
+        if (isCursorVisible) {
+            NSCursor.hide();
+        } else {
+            NSCursor.unhide();
+        }
+        isCursorVisible = !isCursorVisible;
     }
     
     @IBAction func toggleFixAspectRatio(_ sender: NSMenuItem) {
