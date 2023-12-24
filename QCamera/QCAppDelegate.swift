@@ -30,6 +30,7 @@ class QCAppDelegate: NSObject, NSApplicationDelegate, QCUsbWatcherDelegate {
     // 0 = normal, 1 = 90' top to right, 2 = 180' top to bottom, 3 = 270' top to left
     var position = 0;
     var isCursorVisible: Bool = true;
+    var isDisplaySleepEnabled: Bool = true;  //state enabled in menu to start with
     var isBorderless: Bool = false;
     var isAspectRatioFixed: Bool = false;
     var defaultBorderStyle: NSWindow.StyleMask = NSWindow.StyleMask.closable;
@@ -100,12 +101,14 @@ class QCAppDelegate: NSObject, NSApplicationDelegate, QCUsbWatcherDelegate {
             let currentDevice = (self.captureSession.inputs[0] as! AVCaptureDeviceInput).device
             guard currentDevice != device else { return }
             
-            displaySleepManager.allowDisplaySleep();
+            displaySleepManager.allowDisplaySleep(); // always reenable
             NSCursor.unhide();
             captureSession.stopRunning();
         }
         
-        displaySleepManager.preventDisplaySleep()
+        if isDisplaySleepEnabled {
+            displaySleepManager.preventDisplaySleep()
+        }
         captureSession = AVCaptureSession();
         
         do {
@@ -253,7 +256,6 @@ class QCAppDelegate: NSObject, NSApplicationDelegate, QCUsbWatcherDelegate {
         }
     }
      
-
     @IBAction func saveImage(_ sender: NSMenuItem) {
         if (self.window.styleMask.contains(.fullScreen)){
             NSLog("Save is not supported as window is full screen");
@@ -311,7 +313,18 @@ class QCAppDelegate: NSObject, NSApplicationDelegate, QCUsbWatcherDelegate {
             }
         }
     }
-    
+ 
+    @IBAction func ToggleDisableDisplaySleep(_ sender: NSMenuItem) {
+        NSLog("Disable Display Sleep menu item selected");
+        isDisplaySleepEnabled = !isDisplaySleepEnabled;
+        if isDisplaySleepEnabled {
+            sender.state = NSControl.StateValue.on;
+        } else {
+            sender.state = NSControl.StateValue.off;
+        }
+//        sender.state = convertToNSControlStateValue((isDisplaySleepEnabled ? NSControl.StateValue.on.rawValue : NSControl.StateValue.off.rawValue));
+    }
+
     @objc func deviceMenuChanged(_ sender: NSMenuItem) {
         NSLog("Device Menu changed");
         if (sender.state == NSControl.StateValue.on) {
