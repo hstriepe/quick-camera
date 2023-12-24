@@ -94,12 +94,6 @@ class QCAppDelegate: NSObject, NSApplicationDelegate, QCUsbWatcherDelegate {
         NSLog("Starting capture with device index %d", defaultDevice);
         let device: AVCaptureDevice = self.devices[defaultDevice];
 
-//        guard let audioDevice = AVCaptureDevice.default(for: .audio) else { return }
-//        guard let audioInput = try? AVCaptureDeviceInput(device: audioDevice) else { return }
-//        if self.captureSession.canAddInput(audioInput) {
-//            self.captureSession.addInput(audioInput)
-//       } else { return }
-
         if (captureSession != nil) {
             
             // if we are "restarting" a session but the device is the same exit early
