@@ -126,7 +126,7 @@
                             </menuItem>
                             <menuItem title="Disable Display Sleep" state="on" keyEquivalent="d" id="fvM-w7-lqA">
                                 <connections>
-                                    <action selector="ToggleDisableDisplaySleep:" target="-1" id="yc2-bS-a4l"/>
+                                    <action selector="toggleDisableDisplaySleep:" target="-1" id="qCL-bU-hf3"/>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="79">

@@ -124,14 +124,12 @@ class QCAppDelegate: NSObject, NSApplicationDelegate, QCUsbWatcherDelegate {
             self.windowTitle = String(format: "Quick Camera: [%@]", device.localizedName);
             self.window.title = self.windowTitle;
             fixAspectRatio();
-//            NSCursor.hide();
         } catch {
             NSLog("Error while opening device");
             self.errorMessage(message: "Unfortunately, there was an error when trying to access the camera. Try again or select a different one.");
         }
     }
     
-   
     
     @IBAction func mirrorHorizontally(_ sender: NSMenuItem) {
         NSLog("Mirror image menu item selected");
@@ -314,15 +312,10 @@ class QCAppDelegate: NSObject, NSApplicationDelegate, QCUsbWatcherDelegate {
         }
     }
  
-    @IBAction func ToggleDisableDisplaySleep(_ sender: NSMenuItem) {
+    @IBAction func toggleDisableDisplaySleep(_ sender: NSMenuItem) {
         NSLog("Disable Display Sleep menu item selected");
         isDisplaySleepEnabled = !isDisplaySleepEnabled;
-        if isDisplaySleepEnabled {
-            sender.state = NSControl.StateValue.on;
-        } else {
-            sender.state = NSControl.StateValue.off;
-        }
-//        sender.state = convertToNSControlStateValue((isDisplaySleepEnabled ? NSControl.StateValue.on.rawValue : NSControl.StateValue.off.rawValue));
+        sender.state = convertToNSControlStateValue((isDisplaySleepEnabled ? NSControl.StateValue.on.rawValue : NSControl.StateValue.off.rawValue));
     }
 
     @objc func deviceMenuChanged(_ sender: NSMenuItem) {
@@ -350,6 +343,7 @@ class QCAppDelegate: NSObject, NSApplicationDelegate, QCUsbWatcherDelegate {
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         true;
     }
+
 }
 
 // Helper function inserted by Swift 4.2 migrator.
