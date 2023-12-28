@@ -21,15 +21,17 @@ class QCAppDelegate: NSObject, NSApplicationDelegate, QCUsbWatcherDelegate {
     }
 
     @IBOutlet weak var window: NSWindow!
+
     @IBOutlet weak var selectSourceMenu: NSMenuItem!
-    @IBOutlet weak var playerView: NSView!
+//    @IBOutlet weak var playerView: NSView!
+    @IBOutlet weak var playerView: QCView!
     
     var isMirrored: Bool = false;
     var isUpsideDown: Bool = false;
     
     // 0 = normal, 1 = 90' top to right, 2 = 180' top to bottom, 3 = 270' top to left
     var position = 0;
-    var isCursorVisible: Bool = true;
+//    var isCursorVisible: Bool = true;
     var isDisplaySleepEnabled: Bool = true;  //state enabled in menu to start with
     var isBorderless: Bool = false;
     var isAspectRatioFixed: Bool = false;
@@ -102,8 +104,9 @@ class QCAppDelegate: NSObject, NSApplicationDelegate, QCUsbWatcherDelegate {
             guard currentDevice != device else { return }
             
             displaySleepManager.allowDisplaySleep(); // always reenable
-            NSCursor.unhide();
+            NSCursor.unhide(); // just to making sure
             captureSession.stopRunning();
+            
         }
         
         if isDisplaySleepEnabled {
@@ -223,12 +226,12 @@ class QCAppDelegate: NSObject, NSApplicationDelegate, QCUsbWatcherDelegate {
     @IBAction func enterFullScreen(_ sender: NSMenuItem) {
         NSLog("Enter full screen menu item selected");
         playerView.window?.toggleFullScreen(self);
-        if (isCursorVisible) {
-            NSCursor.hide();
-        } else {
-            NSCursor.unhide();
-        }
-        isCursorVisible = !isCursorVisible;
+//        if (isCursorVisible) {
+//            NSCursor.hide();
+//        } else {
+//            NSCursor.unhide();
+//        }
+//        isCursorVisible = !isCursorVisible;
     }
     
     @IBAction func toggleFixAspectRatio(_ sender: NSMenuItem) {
