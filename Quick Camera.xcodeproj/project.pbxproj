@@ -96,8 +96,8 @@
 				87FF951F1E35B7CE0017DADB /* QCAppDelegate.swift */,
 				F43D252C16BB703100CBC272 /* QCamera.entitlements */,
 				F4CBD3AB16B8CE5F003A4794 /* MainMenu.xib */,
-				F554E73A2B3B528500898612 /* QCViewController.swift */,
 				F5D418E52B37B2DA00A4C2D3 /* QCDisplaySleep.swift */,
+				F554E73A2B3B528500898612 /* QCViewController.swift */,
 				F952D6E224E15A6200EA786D /* QCUsbWatcher.swift */,
 			);
 			path = QCamera;
@@ -304,13 +304,14 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1.4.3;
+				CURRENT_PROJECT_VERSION = 1.4.6;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = D6WY385Q4D;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "QCamera/QCamera-Prefix.pch";
 				INFOPLIST_FILE = "QCamera/Quick Camera-Info.plist";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.video";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -338,13 +339,14 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1.4.3;
+				CURRENT_PROJECT_VERSION = 1.4.6;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = D6WY385Q4D;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "QCamera/QCamera-Prefix.pch";
 				INFOPLIST_FILE = "QCamera/Quick Camera-Info.plist";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.video";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",

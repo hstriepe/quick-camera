@@ -37,6 +37,7 @@ class QCView: NSView {
     }
 
     deinit {
+        NSCursor.unhide();
         NotificationCenter.default.removeObserver(self)
     }
 }

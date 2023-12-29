@@ -4,7 +4,7 @@
 //
 //  Created by Simon Guest on 1/22/17.
 //  Copyright © 2013-2021 Simon Guest. All rights reserved.
-//  Modified Harald Striepe 12/23/23
+//  Modified Harald Striepe 12/23-29 2023
 
 import Cocoa
 import AVKit
@@ -31,7 +31,6 @@ class QCAppDelegate: NSObject, NSApplicationDelegate, QCUsbWatcherDelegate {
     
     // 0 = normal, 1 = 90' top to right, 2 = 180' top to bottom, 3 = 270' top to left
     var position = 0;
-//    var isCursorVisible: Bool = true;
     var isDisplaySleepEnabled: Bool = true;  //state enabled in menu to start with
     var isBorderless: Bool = false;
     var isAspectRatioFixed: Bool = false;
@@ -40,7 +39,6 @@ class QCAppDelegate: NSObject, NSApplicationDelegate, QCUsbWatcherDelegate {
     let defaultDeviceIndex: Int = 0;
     var selectedDeviceIndex: Int = 0
     var devices: [AVCaptureDevice]!;
-    var audio_devices: [AVCaptureDevice]!;
     var captureSession: AVCaptureSession!;
     var captureLayer: AVCaptureVideoPreviewLayer!;
     
@@ -55,7 +53,6 @@ class QCAppDelegate: NSObject, NSApplicationDelegate, QCUsbWatcherDelegate {
     func detectVideoDevices() {
         NSLog("Detecting video devices...");
         self.devices = AVCaptureDevice.devices(for: AVMediaType.video);
-        self.audio_devices = AVCaptureDevice.devices(for: AVMediaType.audio);
 
         if (devices?.count == 0) {
             let popup = NSAlert();
@@ -104,7 +101,6 @@ class QCAppDelegate: NSObject, NSApplicationDelegate, QCUsbWatcherDelegate {
             guard currentDevice != device else { return }
             
             displaySleepManager.allowDisplaySleep(); // always reenable
-            NSCursor.unhide(); // just to making sure
             captureSession.stopRunning();
             
         }
@@ -226,12 +222,6 @@ class QCAppDelegate: NSObject, NSApplicationDelegate, QCUsbWatcherDelegate {
     @IBAction func enterFullScreen(_ sender: NSMenuItem) {
         NSLog("Enter full screen menu item selected");
         playerView.window?.toggleFullScreen(self);
-//        if (isCursorVisible) {
-//            NSCursor.hide();
-//        } else {
-//            NSCursor.unhide();
-//        }
-//        isCursorVisible = !isCursorVisible;
     }
     
     @IBAction func toggleFixAspectRatio(_ sender: NSMenuItem) {
@@ -345,6 +335,12 @@ class QCAppDelegate: NSObject, NSApplicationDelegate, QCUsbWatcherDelegate {
     
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         true;
+    }
+
+    @IBAction func openHelpButtonClicked(_ sender: Any) {
+        if let pdfURL = Bundle.main.url(forResource: "your-help-file", withExtension: "pdf") {
+            NSWorkspace.shared.open(pdfURL)
+        }
     }
 
 }
