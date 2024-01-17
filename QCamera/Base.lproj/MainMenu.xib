@@ -124,7 +124,7 @@
                                     <action selector="enterFullScreen:" target="494" id="SVF-ca-TFE"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Disable Display Sleep" state="on" keyEquivalent="d" id="fvM-w7-lqA">
+                            <menuItem title="Disable Display Sleep" keyEquivalent="d" id="fvM-w7-lqA">
                                 <connections>
                                     <action selector="toggleDisableDisplaySleep:" target="-1" id="qCL-bU-hf3"/>
                                 </connections>

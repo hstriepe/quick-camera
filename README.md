@@ -7,11 +7,11 @@ Quick Camera supports mirroring (normal and reversed, both vertical and horizont
 You can find the app on the Mac App Store: https://itunes.apple.com/us/app/qcamera/id598853070?mt=12
 
 ### Forked and added branch Display Additions
- - Display is now prevented from sleeping while running the capture.
- - The mouse cursor is hidden when going to full screen.
+ - Display is now prevented from sleeping while running the capture, if that is enabled in the menu.
+ - The mouse cursor is hidden when going to full screen. Sleep is always disabled in full screen.
 
  12-23-23 Harald Striepe
-
+ 01-17-24 v1.4.6
 
 License
 -------
